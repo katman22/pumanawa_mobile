@@ -4,6 +4,9 @@ import {View, Text, TextInput, FlatList, Button, StyleSheet, TouchableOpacity, S
 import axios from 'axios';
 import Forecasts from "@/components/Forecasts";
 import {ActivityIndicator} from 'react-native';
+import { useEffect } from 'react';
+import * as SecureStore from 'expo-secure-store';
+import Constants from 'expo-constants';
 
 type ForecastItem = {
     name: string;
@@ -33,18 +36,43 @@ export default function HomeScreen() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [weatherList, setWeatherList] = useState<LocationForecast[]>([]);
-
     const removeForecast = (forecast_to_remove: string) => {
         setWeatherList((prev) => prev.filter(f => f.forecast_locale != forecast_to_remove));
     }
 
+    useEffect(() => {
+        storeApiToken();
+    }, []);
+
+    const storeApiToken = async () => {
+        const existing = await SecureStore.getItemAsync('api_token');
+        if (!existing) {
+            const token = Constants.expoConfig?.extra?.apiToken;
+            if (token) {
+                await SecureStore.setItemAsync('api_token', token);
+                console.log('JWT stored in SecureStore');
+            } else {
+                console.warn('API token not found in Constants');
+            }
+        }
+    };
+
+    const getApiToken = async () => {
+        return await SecureStore.getItemAsync('api_token');
+    };
+
     const locationWeather = (location: LocationData) => async () => {
         try {
             setLoading(true);
+            const token = await getApiToken();
             const response = await axios.get('http://192.168.11.60:3000/api/v1/weather/forecasts', {
-                params: {lat: location.lat, name: location.name, long: location.lng},
+                params: { lat: location.lat, name: location.name, long: location.lng },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
-            const {forecast_locale, forecasts} = response.data;
+
+            const { forecast_locale, forecasts } = response.data;
             setLocationResponse((prev) => prev.filter((loc) => loc.lat !== location.lat || loc.lng !== location.lng));
 
             setWeatherList((prev) => [
@@ -63,8 +91,12 @@ export default function HomeScreen() {
     const fetchLocations = async () => {
         try {
             setLoading(true);
+            const token = await getApiToken();
             const response = await axios.get('http://192.168.11.60:3000/api/v1/weather/index', {
                 params: {location: location},
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
             setLocationResponse(response.data);
             setError(null);
