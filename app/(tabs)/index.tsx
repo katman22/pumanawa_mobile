@@ -45,11 +45,11 @@ export default function HomeScreen() {
     }, []);
 
     const storeApiToken = async () => {
-        const existing = await SecureStore.getItemAsync('api_token');
+        const existing = await SecureStore.getItemAsync('api_jwt_token');
         if (!existing) {
             const token = Constants.expoConfig?.extra?.apiToken;
             if (token) {
-                await SecureStore.setItemAsync('api_token', token);
+                await SecureStore.setItemAsync('api_jwt_token', token);
                 console.log('JWT stored in SecureStore');
             } else {
                 console.warn('API token not found in Constants');
@@ -58,7 +58,7 @@ export default function HomeScreen() {
     };
 
     const getApiToken = async () => {
-        return await SecureStore.getItemAsync('api_token');
+        return await SecureStore.getItemAsync('api_jwt_token');
     };
 
     const locationWeather = (location: LocationData) => async () => {
