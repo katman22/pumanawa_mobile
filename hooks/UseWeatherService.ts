@@ -9,7 +9,7 @@ export const getApiToken = async (): Promise<string> => {
   if (Platform.OS !== 'web') {
     return await SecureStore.getItemAsync('api_jwt_token') || '';
   } else {
-    return Constants.expoConfig?.extra?.apiToken ?? "eyJhbGciOiJIUzI1NiJ9.eyJhcHAiOiJtb2JpbGUiLCJleHAiOjIwNjIyODY1MzZ9.SeN6BWPJtm-_dADD37jqFKWoVkgjq_bnwbDWza-JEdc";
+    return Constants.expoConfig?.extra?.apiToken ?? "faker";
   }
 };
 
