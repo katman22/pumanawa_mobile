@@ -6,17 +6,20 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
         forecastHeading: {
             fontSize: 14,
             fontWeight: 'bold',
-            marginTop: -18,
-            marginBottom: 0,
-            marginLeft: 38
+            marginTop: -20,
+            marginBottom: 10,
+            marginLeft: 30,
+            color: isDark ? '#fff':'#000'
         },
         parentContainer: {
             flex: 1,
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            marginBottom: -10
         },
         container: {
             flex: 1,
-            padding: 20, marginTop: 50
+            padding: 20, marginTop: 20
+
         },
         header: {fontSize: 24, marginBottom: 20},
         subHeading: {fontSize: 20, marginBottom: 0},
@@ -28,7 +31,8 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
         },
         input: {
             borderWidth: 1,
-            borderColor: '#ccc',
+            borderColor: isDark ? '#fff':'#ccc',
+            backgroundColor: '#fff',
             borderRadius: 4,
             padding: 10,
             marginBottom: 8, // space between input and button
@@ -77,8 +81,8 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             borderColor: '#e9ecef'
         },
         collapsibleContainer: {
-            backgroundColor: '#f0f0f0',
-            borderColor: '#e9ecef',
+            backgroundColor: isDark? '#ccc':'#f0f0f0',
+            borderColor: isDark ? '#fff':'#e9ecef',
             borderWidth: 1,
             borderRadius: 8,
             padding: 10,
@@ -99,12 +103,12 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
         },
         closeAntCircle: {
             fontSize: 14,
-            marginBottom: 0,
+            marginBottom: 2,
             marginLeft: 10
         },
         forecastContainer: {
-            backgroundColor: '#ffffff',
-            borderColor: '#1e1e1e',
+            backgroundColor: isDark ? '#e9ecef':'#ffffff',
+            borderColor: '#ccc',
             borderWidth: 1,
             borderRadius: 8,
             padding: 2,
