@@ -1,12 +1,19 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import {View, Image, StyleSheet, useColorScheme} from 'react-native';
 
 
 export default function Footer() {
+  const colorScheme = useColorScheme() || 'light';
+  const imageMap = {
+    light: require('@/assets/images/wharehokohoko_kam.png'),
+    dark: require('@/assets/images/wharehokohoko_kam_white.png'),
+  };
+  const imageSource = imageMap[colorScheme];
+
   return (
         <View style={styles.footer}>
           <Image
-              source={require('@/assets/images/wharehokohoko_kam.png')}
+              source={imageSource}
               style={styles.logo}
           />
         </View>
