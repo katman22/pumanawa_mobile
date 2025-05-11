@@ -1,38 +1,18 @@
 // app/(tabs)/index.tsx
 import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import axios from 'axios';
+import { View, Text, TouchableOpacity, useColorScheme, ActivityIndicator} from 'react-native';
+import {fetchWeather, fetchLocations} from "@/hooks/UseWeatherService";
+import getStyles from '@/assets/styles/styles';
 import ForecastScroller from '@/components/ForecastScroller';
-import {ActivityIndicator} from 'react-native';
-import {useEffect} from 'react';
-import * as SecureStore from 'expo-secure-store';
-import Constants from 'expo-constants';
 import LocationsList from "@/components/LocationsList";
-import {styles} from '@/assets/styles';
-
-type ForecastItem = {
-    name: string;
-    icon: string;
-    isDaytime: boolean;
-    temperature: number;
-    temperatureUnit: string;
-    shortForecast: string;
-    detailedForecast: string;
-};
-
-
-interface LocationData {
-    name: string;
-    lat: string;
-    lng: string
-}
-
-type LocationForecast = {
-    forecast_locale: string;
-    forecasts: ForecastItem[];
-};
+import WeatherInput from "@/components/WeatherInput";
+import {AntDesign} from '@expo/vector-icons';
+import Footer from "@/components/Footer";
+import { LocationData, LocationForecast} from "@/constants/types"
 
 export default function HomeScreen() {
+    const colorScheme = useColorScheme() || 'light';
+    const styles = getStyles(colorScheme)
     const [location, setLocation] = useState('');
     const [locationsFound, setLocationResponse] = useState<LocationData []>([]);
     const [error, setError] = useState<string | null>(null);
@@ -41,47 +21,14 @@ export default function HomeScreen() {
     const removeForecast = (forecast_to_remove: string) => {
         setWeatherList((prev) => prev.filter(f => f.forecast_locale != forecast_to_remove));
     }
-
-    useEffect(() => {
-        storeApiToken();
-    }, []);
-
-    const storeApiToken = async () => {
-        const existing = await SecureStore.getItemAsync('api_jwt_token');
-        if (!existing) {
-            const token = Constants.expoConfig?.extra?.apiToken;
-            if (token) {
-                await SecureStore.setItemAsync('api_jwt_token', token);
-                console.log('JWT stored in SecureStore');
-            } else {
-                console.warn('API token not found in Constants');
-            }
-        }
-    };
-
-    const getApiToken = async () => {
-        return await SecureStore.getItemAsync('api_jwt_token');
-    };
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
     const locationWeather = (location: LocationData) => async () => {
         try {
             setLoading(true);
-            const token = await getApiToken();
-            const response = await axios.get('http://192.168.11.60:3000/api/v1/weather/forecasts', {
-                params: {lat: location.lat, name: location.name, long: location.lng},
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            const {forecast_locale, forecasts} = response.data;
+            const { forecast_locale, forecasts } = await fetchWeather(location);
             setLocationResponse((prev) => prev.filter((loc) => loc.lat !== location.lat || loc.lng !== location.lng));
-
-            setWeatherList((prev) => [
-                ...prev,
-                {forecast_locale, forecasts},
-            ]);
-
+            setWeatherList((prev) => [...prev, { forecast_locale, forecasts }]);
             setError(null);
         } catch (err) {
             setError('Error fetching location');
@@ -90,17 +37,11 @@ export default function HomeScreen() {
         }
     };
 
-    const fetchLocations = async () => {
+    const handleFetchLocations = async () => {
         try {
             setLoading(true);
-            const token = await getApiToken();
-            const response = await axios.get('http://192.168.11.60:3000/api/v1/weather/index', {
-                params: {location: location},
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setLocationResponse(response.data);
+            const results = await fetchLocations(location);
+            setLocationResponse(results);
             setError(null);
         } catch (err) {
             setError('Error fetching location');
@@ -111,33 +52,44 @@ export default function HomeScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.subHeading}>Find your local weather</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Enter a location"
-                value={location}
-                onChangeText={setLocation}
-            />
-            <TouchableOpacity
-                style={[styles.goButton, loading && styles.goButtonDisabled]}
-                onPress={fetchLocations}
-                disabled={loading}
-            >
-                <Text style={[styles.goButtonText, loading && styles.goButtonTextDisabled]}>
-                    {loading ? 'Loading…' : 'Go'}
-                </Text>
-            </TouchableOpacity>
+        <View style={(styles.parentContainer)}>
+            <View style={styles.container}>
 
-            {error && <Text style={styles.error}>{error}</Text>}
-            {locationsFound.length > 0 && (
-                <LocationsList locationsFound={locationsFound} locationWeather={locationWeather}/>
-            )}
-            {loading && <ActivityIndicator size="large" color="#007AFF" style={{marginVertical: 20}}/>}
+                <WeatherInput setLocation={setLocation} fetchLocations={handleFetchLocations} loading={loading}
+                              location={location}/>
 
-            {weatherList.length > 0 && (
-                <ForecastScroller weatherList={weatherList} removeForecast={removeForecast}/>
-            )}
+                {error &&
+                    <Text style={styles.error}>{error}</Text>
+                }
+                {locationsFound.length > 0 && (
+                    <View style={styles.collapsibleContainer}>
+                        <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}
+                                          style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <Text>
+                                {isCollapsed ? <AntDesign name="downcircleo"/> : <AntDesign name="upcircleo"/>}
+                            </Text>
+                            <Text style={styles.collapsibleText}> Locations</Text>
+                        </TouchableOpacity>
+                        {!isCollapsed && (
+                            <View style={{position: 'relative'}}>
+                                <LocationsList locationsFound={locationsFound} locationWeather={locationWeather}/>
+                                {loading && (
+                                    <View style={styles.collapsibleMask}>
+                                        <ActivityIndicator size="small" color="#000"/>
+                                    </View>
+                                )}
+                            </View>
+
+                        )}
+                    </View>
+                )}
+
+                {weatherList.length > 0 && (
+                    <ForecastScroller weatherList={weatherList} removeForecast={removeForecast}/>
+                )}
+
+            </View>
+            <Footer />
         </View>
     );
 }

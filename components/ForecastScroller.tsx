@@ -1,46 +1,49 @@
 // import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Text, useColorScheme, TouchableOpacity, ScrollView} from 'react-native';
 import Forecasts from "@/components/Forecasts";
-import {styles} from '@/assets/styles';
-
-type ForecastItem = {
-  name: string;
-  icon: string;
-  isDaytime: boolean;
-  temperature: number;
-  temperatureUnit: string;
-  shortForecast: string;
-  detailedForecast: string;
-};
+import getStyles from '@/assets/styles/styles';
+import {AntDesign} from '@expo/vector-icons';
+import { ForecastItem} from "@/constants/types"
 
 type Props = {
-  weatherList: {
-    forecast_locale: string;
-    forecasts: ForecastItem[];
-  }[];
-  removeForecast: (forecast_locale: string) => void;
+    weatherList: {
+        forecast_locale: string;
+        forecasts: ForecastItem[];
+    }[];
+    removeForecast: (forecast_locale: string) => void;
 };
 
-const ForecastScroller: React.FC<Props> = ({ weatherList, removeForecast }) => {
-  return (
-      <ScrollView
-          style={{ marginTop: 20 }}
-          contentContainerStyle={{ paddingBottom: 100 }}
-      >
-        {weatherList.map((item, index) => (
-            <View key={index} style={{ marginBottom: 24 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <TouchableOpacity onPress={() => removeForecast(item.forecast_locale)}>
-                  <Text style={styles.closeButton}>✕</Text>
-                </TouchableOpacity>
-
-                <Text style={styles.forecastHeading}>{item.forecast_locale}</Text>
-              </View>
-              <Forecasts forecasts={item.forecasts} />
-            </View>
-        ))}
-      </ScrollView>
-  );
+const ForecastScroller: React.FC<Props> = ({weatherList, removeForecast}) => {
+    const colorScheme = useColorScheme() || 'light';
+    const styles = getStyles(colorScheme)
+    return (
+        <ScrollView
+            style={{marginTop: 2}}
+        >
+            {weatherList.map((item, index) => (
+                <View key={index} style={{marginTop: 10, marginBottom: 10}}>
+                    <View style={{flexDirection: 'column', alignItems: 'flex-start'}}>
+                        <TouchableOpacity onPress={() => removeForecast(item.forecast_locale)}
+                                          accessibilityLabel="Remove forecast">
+                            <AntDesign style={styles.closeAntCircle} name="closecircleo"/>
+                        </TouchableOpacity>
+                        <Text
+                            style={styles.forecastHeading}
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                        >
+                            {item.forecast_locale.length > 40
+                                ? item.forecast_locale.slice(0, 40) + '...'
+                                : item.forecast_locale}
+                        </Text>
+                    </View>
+                    <View style={styles.forecastContainer}>
+                        <Forecasts forecasts={item.forecasts}/>
+                    </View>
+                </View>
+            ))}
+        </ScrollView>
+    );
 };
 
 export default ForecastScroller;

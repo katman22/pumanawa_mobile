@@ -1,15 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
-
-type ForecastItem = {
-  name: string;
-  icon: string;
-  isDaytime: boolean;
-  temperature: number;
-  temperatureUnit: string;
-  shortForecast: string;
-  detailedForecast: string;
-};
+import { ForecastItem} from "@/constants/types"
 
 type Props = {
   forecasts: ForecastItem[];

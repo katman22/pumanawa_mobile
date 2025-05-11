@@ -30,3 +30,6 @@ You can start developing by editing the files inside the **app** directory. This
 Add Expo - Go application to test from a mobile phone.
 https://expo.dev/go
 
+3. Setup Bearer token. Use the connecting rails application to generate a longlived token.
+
+
