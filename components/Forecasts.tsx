@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   shortForecast: {
     fontSize: 12,
     textAlign: 'center',
-  },
+  }
 });
 
 export default Forecasts;
