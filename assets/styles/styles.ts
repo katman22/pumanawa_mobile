@@ -9,7 +9,15 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             marginTop: -20,
             marginBottom: 10,
             marginLeft: 30,
-            color: isDark ? '#fff':'#000'
+            color: isDark ? '#fff' : '#000'
+        },
+        fullForecastHeading: {
+            fontSize: 14,
+            fontWeight: 'bold',
+            marginTop: 5,
+            marginBottom: 10,
+            marginLeft: 4,
+            color: isDark ? '#fff' : '#000'
         },
         parentContainer: {
             flex: 1,
@@ -22,7 +30,6 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
 
         },
         header: {fontSize: 24, marginBottom: 20},
-        subHeading: {fontSize: 20, marginBottom: 0},
         result: {marginTop: 20, fontSize: 18},
         error: {color: 'red', marginTop: 20},
         inputGroup: {
@@ -31,7 +38,7 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
         },
         input: {
             borderWidth: 1,
-            borderColor: isDark ? '#fff':'#ccc',
+            borderColor: isDark ? '#fff' : '#ccc',
             backgroundColor: '#fff',
             borderRadius: 4,
             padding: 10,
@@ -64,6 +71,15 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             borderColor: '#ccc',
             borderRadius: 6,
         },
+        hourlyContainer: {
+            position: 'relative',
+            maxHeight: 280,
+            minHeight: 280,
+            overflow: 'hidden',
+            borderWidth: 1,
+            borderColor: '#ccc',
+            borderRadius: 6,
+        },
         evenRow: {
             backgroundColor: '#f9f9f9',
         },
@@ -81,12 +97,28 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             borderColor: '#e9ecef'
         },
         collapsibleContainer: {
-            backgroundColor: isDark? '#ccc':'#f0f0f0',
-            borderColor: isDark ? '#fff':'#e9ecef',
+            backgroundColor: isDark ? '#ccc' : '#f0f0f0',
+            borderColor: isDark ? '#fff' : '#e9ecef',
             borderWidth: 1,
             borderRadius: 8,
             padding: 10,
             marginVertical: 10,
+        },
+        fullForecastContainer: {
+            backgroundColor: isDark ? '#ccc' : '#f0f0f0',
+            borderColor: isDark ? '#fff' : '#e9ecef',
+            borderWidth: 1,
+            borderRadius: 8,
+            padding: 10,
+            marginTop: 10
+        },
+        hourlyForecastContainer: {
+            backgroundColor: isDark ? '#ccc' : '#f0f0f0',
+            borderColor: isDark ? '#fff' : '#e9ecef',
+            borderWidth: 1,
+            borderRadius: 8,
+            marginTop: 10,
+            padding: 5
         },
         collapsibleMask: {
             ...StyleSheet.absoluteFillObject,
@@ -107,13 +139,161 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             marginLeft: 10
         },
         forecastContainer: {
-            backgroundColor: isDark ? '#e9ecef':'#ffffff',
+            backgroundColor: isDark ? '#e9ecef' : '#ffffff',
             borderColor: '#ccc',
             borderWidth: 1,
             borderRadius: 8,
             padding: 2,
             marginTop: 2,
-        }
+        },
+        floatingButton: {
+            alignSelf: 'flex-start',
+            backgroundColor: '#007bff',
+            paddingVertical: 8,
+            paddingHorizontal: 16,
+            borderRadius: 20,
+            marginLeft: 10,
+            marginTop: -20
+        },
+        buttonText: {
+            color: 'white',
+            fontWeight: '600',
+        },
+        primaryForecastContainer: {
+            padding: 16,
+            backgroundColor: '#f0f0f0',
+            borderRadius: 12,
+            marginBottom: 20,
+        },
+        locationName: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            marginBottom: 8,
+        },
+        mainForecastRow: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        forecastDetails: {
+            flex: 1,
+        },
+        periodName: {
+            fontSize: 14,
+            fontWeight: '600',
+        },
+        detailsName: {
+            fontSize: 14,
+            marginLeft: 10,
+            marginTop: 10,
+            fontWeight: '600',
+        },
+        hourlyName: {
+            fontSize: 14,
+            marginLeft: 4,
+            marginTop: 2,
+            marginBottom: 5,
+            fontWeight: '600',
+        },
+        shortForecast: {
+            fontSize: 14,
+            color: '#555',
+            marginTop: 4,
+        },
+        wind: {
+            fontSize: 14,
+            color: '#555',
+        },
+        precipitation: {
+            fontSize: 6,
+            color: 'black',
+            marginTop: -1
+        },
+        temp: {
+            fontSize: 14,
+            color: '#555',
+            marginBottom: 9,
+        },
+        weatherIcon: {
+            width: 100,
+            height: 100,
+            marginLeft: 12,
+        },
+        detailedForecast: {
+            marginLeft: 10,
+            fontSize: 14,
+            color: '#333',
+            lineHeight: 20,
+            padding: 5,
+            borderRadius: 4,
+        },
+        detailsContainer: {
+            marginTop: 10,
+            backgroundColor: '#f9f9f9',
+            borderRadius: 4,
+        },
+        topLoading:{
+            marginTop: 100
+        },
+        horizontalScrollContainer: {
+            paddingVertical: 10,
+            paddingHorizontal: 5,
+        },
+        time: {
+            fontSize: 12,
+            fontWeight: 'bold',
+            marginBottom: 4,
+        },
+        forecast: {
+            fontSize: 12,
+            marginBottom: 2,
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+        },
+        forecastRow: {
+            flexDirection: 'row', // Stack the rows vertically
+            marginBottom: 0,
+            backgroundColor: '#f1f1f1',
+            borderRadius: 0,
+            paddingVertical: 0,
+        },
+        forecastColumn: {
+            flexDirection: 'column', // Arrange the data vertically in each column
+            // justifyContent: 'center',
+            // alignItems: 'center',
+            marginRight: 1, // Space between columns
+            padding: 2,
+            // backgroundColor: '#ffffff',
+            borderRadius: 1,
+            width: 120, // Width of each column
+        },
+        tempColumn: {
+            flexDirection: 'column', // Arrange the data vertically in each column
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginRight: 1, // Space between columns
+            padding: 2,
+            // backgroundColor: '#ffffff',
+            borderRadius: 1,
+            width: 80, // Width of each column
+        },
+        forecastDayColumn: {
+            flexDirection: 'column', // Arrange the data vertically in each column
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            marginRight: 1, // Space between columns
+            padding: 2,
+            // backgroundColor: '#ffffff',
+            borderRadius: 1,
+            width: 80, // Width of each column
+        },
+        radarHeading: {
+            fontSize: 14,
+            marginBottom: 0,
+            marginTop: 20,
+            fontWeight: '600'
+        },
+        subHeading: {fontSize: 20, marginBottom: 0},
     });
 }
 

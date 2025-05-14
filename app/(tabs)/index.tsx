@@ -1,5 +1,5 @@
 // app/(tabs)/index.tsx
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, useColorScheme, ActivityIndicator} from 'react-native';
 import {fetchWeather, fetchLocations} from "@/hooks/UseWeatherService";
 import getStyles from '@/assets/styles/styles';
@@ -9,6 +9,7 @@ import WeatherInput from "@/components/WeatherInput";
 import {AntDesign} from '@expo/vector-icons';
 import Footer from "@/components/Footer";
 import { LocationData, LocationForecast} from "@/constants/types"
+import { getRecentSearches} from "@/constants/utilities/recentSearches"
 
 export default function HomeScreen() {
     const colorScheme = useColorScheme() || 'light';
@@ -18,17 +19,24 @@ export default function HomeScreen() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [weatherList, setWeatherList] = useState<LocationForecast[]>([]);
+    const [recentLocations, setRecent] = useState<LocationData []>([]);
+
+
     const removeForecast = (forecast_to_remove: string) => {
         setWeatherList((prev) => prev.filter(f => f.forecast_locale != forecast_to_remove));
     }
     const [isCollapsed, setIsCollapsed] = useState(false);
 
-    const locationWeather = (location: LocationData) => async () => {
+    useEffect(() => {
+        getRecentSearches().then(setRecent);
+    }, []);
+
+    const locationWeather = async (location: LocationData) => {
         try {
             setLoading(true);
-            const { forecast_locale, forecasts } = await fetchWeather(location);
+            const { lat, long, forecast_locale, forecasts } = await fetchWeather(location);
             setLocationResponse((prev) => prev.filter((loc) => loc.lat !== location.lat || loc.lng !== location.lng));
-            setWeatherList((prev) => [...prev, { forecast_locale, forecasts }]);
+            setWeatherList((prev) => [...prev, { lat, long, forecast_locale, forecasts }]);
             setError(null);
         } catch (err) {
             setError('Error fetching location');
@@ -54,7 +62,6 @@ export default function HomeScreen() {
     return (
         <View style={(styles.parentContainer)}>
             <View style={styles.container}>
-
                 <WeatherInput setLocation={setLocation} fetchLocations={handleFetchLocations} loading={loading}
                               location={location}/>
 
@@ -84,7 +91,30 @@ export default function HomeScreen() {
                     </View>
                 )}
 
-                {weatherList.length > 0 && (
+                {recentLocations.length > 0 && (
+                    <View style={styles.collapsibleContainer}>
+                        <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}
+                                          style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <Text>
+                                {isCollapsed ? <AntDesign name="downcircleo"/> : <AntDesign name="upcircleo"/>}
+                            </Text>
+                            <Text style={styles.collapsibleText}> Recent Searches</Text>
+                        </TouchableOpacity>
+                        {!isCollapsed && (
+                            <View style={{position: 'relative'}}>
+                                <LocationsList locationsFound={recentLocations} locationWeather={locationWeather}/>
+                                {loading && (
+                                    <View style={styles.collapsibleMask}>
+                                        <ActivityIndicator size="small" color="#000"/>
+                                    </View>
+                                )}
+                            </View>
+
+                        )}
+                    </View>
+                )}
+
+                {weatherList.length > 0&& (
                     <ForecastScroller weatherList={weatherList} removeForecast={removeForecast}/>
                 )}
 
