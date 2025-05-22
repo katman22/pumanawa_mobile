@@ -2,14 +2,15 @@ import {View, Text, FlatList, useColorScheme} from 'react-native';
 import {ForecastPeriod} from "@/constants/types";
 import React from "react";
 import getStyles from '@/assets/styles/styles';
+import {useTheme} from "@react-navigation/native";
 
 interface HourlyForecastGridProps {
     periods: ForecastPeriod[];
 }
 
 export default function HourlyForecastGrid({periods}: HourlyForecastGridProps) {
-    const colorScheme = useColorScheme() || 'light';
-    const styles = getStyles(colorScheme)
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
     return (
         <View style={[styles.hourlyContainer]}>
             <FlatList
@@ -44,8 +45,8 @@ export default function HourlyForecastGrid({periods}: HourlyForecastGridProps) {
                                         <Text style={styles.temp}>{item.temperature}°{item.temperatureUnit}</Text>
                                     </View>
                                     <View style={styles.tempColumn}>
-                                        <Text style={styles.wind}>{item.probabilityOfPrecipitation.value}%</Text>
-                                        <Text style={styles.precipitation}>chance of precip</Text>
+                                        <Text style={styles.precipMain}>{item.probabilityOfPrecipitation.value}%</Text>
+                                        <Text style={styles.precipitation}>precip</Text>
                                     </View>
                                     <View style={styles.forecastColumn}>
                                         <Text style={styles.wind}>{item.windDirection} {item.windSpeed}</Text>

@@ -3,7 +3,8 @@ import {View, Platform} from 'react-native';
 import {BannerAd, BannerAdSize, TestIds} from "react-native-google-mobile-ads";
 
 
-export default function Footer() {
+export default function IndexFooter() {
+
     const adUnitId = __DEV__
         ? TestIds.BANNER
         : Platform.OS === 'ios'
@@ -12,7 +13,7 @@ export default function Footer() {
 
     return (
         <View>
-            <View style={{marginBottom: 0}}>
+            <View style={{marginBottom: -10}}>
                 <BannerAd
                     unitId={adUnitId}
                     size={BannerAdSize.ADAPTIVE_BANNER}

@@ -1,8 +1,9 @@
 // import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, FlatList, useColorScheme} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import React from "react";
 import getStyles from '@/assets/styles/styles';
 import { LocationData } from "@/constants/types"
+import {useTheme} from "@react-navigation/native";
 
 type Props = {
     locationWeather: (location: LocationData) => void;
@@ -10,8 +11,8 @@ type Props = {
 };
 
 const LocationsList: React.FC<Props> = ({locationWeather, locationsFound}) => {
-const colorScheme = useColorScheme() || 'light';
-const styles = getStyles(colorScheme)
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
     return (
         <View style={[styles.locationListContainer]}>
             <FlatList

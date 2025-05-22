@@ -30,7 +30,8 @@ export type ForecastPeriod = {
 export interface LocationData {
   name: string;
   lat: string;
-  lng: string
+  lng: string;
+  favorite?: boolean;
 }
 
 export type LocationHourlyForecast = {
@@ -40,8 +41,10 @@ export type LocationHourlyForecast = {
 export type LocationForecast = {
   forecast_locale: string;
   forecasts: ForecastItem[];
-  lat: string,
-  long: string
+  lat: string;
+  long: string;
+  favorite?: boolean;
+  name: string;
 };
 
 export type RadarLocation = {
