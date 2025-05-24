@@ -17,8 +17,9 @@ const styles = getStyles(colorScheme)
             <FlatList
                 data={locationsFound}
                 keyExtractor={(item) => item.lat + '-' + item.lng}
+                initialNumToRender={3}
                 renderItem={({item, index}) => (
-                    <TouchableOpacity onPress={() => locationWeather(item)()}
+                    <TouchableOpacity onPress={() => locationWeather(item)}
                                       style={[
                                           styles.locationItem,
                                           index % 2 === 0 ? styles.evenRow : styles.oddRow,
