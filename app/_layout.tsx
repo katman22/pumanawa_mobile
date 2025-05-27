@@ -1,31 +1,37 @@
-import {DarkTheme, DefaultTheme, ThemeProvider} from '@react-navigation/native';
 import {useFonts} from 'expo-font';
 import {Stack} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
 import 'react-native-reanimated';
-
-import {useColorScheme} from '@/hooks/useColorScheme';
-import {LatLongProvider} from '@/components/LatLongContext'; // ✅ Import your context provider
+import {LatLongProvider} from '@/components/LatLongContext';
+import { AppThemeProvider as CustomThemeProvider, useThemeToggle } from '@/components/ThemedContext';
+import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 
 export default function RootLayout() {
-    const colorScheme = useColorScheme();
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     });
 
-    if (!loaded) {
-        return null;
-    }
+    if (!loaded) return null;
 
     return (
         <LatLongProvider>
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <Stack>
-                    <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-                    <Stack.Screen name="+not-found"/>
-                </Stack>
-                <StatusBar style="auto"/>
-            </ThemeProvider>
+            <CustomThemeProvider>
+                <ThemedNavigationWrapper />
+            </CustomThemeProvider>
         </LatLongProvider>
     );
 }
+
+const ThemedNavigationWrapper = () => {
+    const { theme, currentTheme } = useThemeToggle();
+
+    return (
+        <NavigationThemeProvider value={theme}>
+            <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style={['dark', 'clock', 'poppy'].includes(currentTheme) ? 'light' : 'dark'} />
+        </NavigationThemeProvider>
+    );
+};

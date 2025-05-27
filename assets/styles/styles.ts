@@ -1,32 +1,47 @@
 import {StyleSheet} from "react-native";
+import {Theme} from '@react-navigation/native';
 
-const getStyles = (scheme: 'light' | 'dark' | null) => {
-    const isDark = scheme === 'dark';
+const getStyles = (colors: Theme['colors']) => {
+
     return StyleSheet.create({
         forecastHeading: {
             fontSize: 14,
             fontWeight: 'bold',
-            marginTop: -20,
-            marginBottom: 10,
-            marginLeft: 30,
-            color: isDark ? '#fff' : '#000'
+            marginTop: -1,
+            marginBottom: 0,
+            marginLeft: 5,
+            color: colors.primary
         },
         fullForecastHeading: {
+            alignSelf: 'flex-end',
             fontSize: 14,
             fontWeight: 'bold',
             marginTop: 5,
             marginBottom: 10,
-            marginLeft: 4,
-            color: isDark ? '#fff' : '#000'
+            marginLeft: -200,
+            width: 200,
+            color: colors.primary
         },
         parentContainer: {
             flex: 1,
             justifyContent: 'space-between',
-            marginBottom: -10
+            paddingBottom: 60, // Give breathing room for the banner
+        },
+        parentRadarContainer: {
+            flex: 1,
+            justifyContent: 'space-between',
+            paddingBottom: 10, // Give breathing room for the banner
+            paddingTop: 20
         },
         container: {
             flex: 1,
             padding: 20, marginTop: 20
+
+        },
+        radarContainer: {
+            flex: 1,
+            padding: 10, marginTop: 30,
+            paddingBottom: 30
 
         },
         header: {fontSize: 24, marginBottom: 20},
@@ -38,21 +53,22 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
         },
         input: {
             borderWidth: 1,
-            borderColor: isDark ? '#fff' : '#ccc',
-            backgroundColor: '#fff',
+            borderColor: colors.border,
+            backgroundColor: colors.card,
             borderRadius: 4,
+            color: colors.notification,
             padding: 10,
             marginBottom: 8, // space between input and button
         },
         goButton: {
             alignSelf: 'flex-end', // aligns the button to the right
-            backgroundColor: '#007AFF',
+            backgroundColor: colors.card,
             paddingVertical: 10,
             paddingHorizontal: 16,
             borderRadius: 4,
         },
         goButtonText: {
-            color: '#fff',
+            color: colors.primary,
             fontWeight: 'bold',
             textAlign: 'center',
         },
@@ -66,9 +82,9 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             position: 'relative',
             maxHeight: 200,
             overflow: 'hidden',
-            marginTop: 20,
+            marginTop: 5,
             borderWidth: 1,
-            borderColor: '#ccc',
+            borderColor: colors.border,
             borderRadius: 6,
         },
         hourlyContainer: {
@@ -81,14 +97,14 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             borderRadius: 6,
         },
         evenRow: {
-            backgroundColor: '#f9f9f9',
+            backgroundColor: colors.background,
         },
 
         oddRow: {
-            backgroundColor: '#e0e0e0',
+            backgroundColor: colors.card,
         },
         locationItem: {
-            padding: 12,
+            padding: 4
         },
         closeButton: {
             fontSize: 12,
@@ -97,24 +113,24 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             borderColor: '#e9ecef'
         },
         collapsibleContainer: {
-            backgroundColor: isDark ? '#ccc' : '#f0f0f0',
-            borderColor: isDark ? '#fff' : '#e9ecef',
+            backgroundColor: colors.background,
+            borderColor: colors.border,
             borderWidth: 1,
             borderRadius: 8,
             padding: 10,
             marginVertical: 10,
         },
         fullForecastContainer: {
-            backgroundColor: isDark ? '#ccc' : '#f0f0f0',
-            borderColor: isDark ? '#fff' : '#e9ecef',
+            backgroundColor: colors.background,
+            borderColor: colors.border,
             borderWidth: 1,
             borderRadius: 8,
             padding: 10,
             marginTop: 10
         },
         hourlyForecastContainer: {
-            backgroundColor: isDark ? '#ccc' : '#f0f0f0',
-            borderColor: isDark ? '#fff' : '#e9ecef',
+            backgroundColor: colors.background,
+            borderColor: colors.border,
             borderWidth: 1,
             borderRadius: 8,
             marginTop: 10,
@@ -133,20 +149,61 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             fontSize: 18,
             marginBottom: 0
         },
+        collapsibleTextSm: {
+            fontSize: 10,
+            marginLeft: 5,
+            marginBottom: 0,
+            fontWeight: '600',
+            color: colors.primary
+        },
         closeAntCircle: {
             fontSize: 14,
             marginBottom: 2,
             marginLeft: 10
         },
+        clearInput: {
+            fontSize: 18,
+            marginTop: -20,
+            marginRight: 5
+        },
         forecastContainer: {
-            backgroundColor: isDark ? '#e9ecef' : '#ffffff',
-            borderColor: '#ccc',
+            backgroundColor: colors.background,
+            borderColor: colors.border,
             borderWidth: 1,
             borderRadius: 8,
             padding: 2,
             marginTop: 2,
         },
+        buttonRow: {
+            flexDirection: 'row',
+            justifyContent: 'space-between', // ⬅️ left group & right group
+            alignItems: 'center',
+            paddingHorizontal: 10,
+            marginTop: 10,
+        },
+        leftGroup: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        rightGroup: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
         floatingButton: {
+            backgroundColor: colors.card,
+            paddingVertical: 8,
+            paddingHorizontal: 11,
+            borderRadius: 20,
+            marginRight: 8, // Small space between buttons
+        },
+        greyButton: {
+            backgroundColor: '#ccc',
+            paddingVertical: 8,
+            paddingHorizontal: 11,
+            borderRadius: 20,
+            marginRight: 8, // Small space between buttons
+        },
+        fullButton: {
             alignSelf: 'flex-start',
             backgroundColor: '#007bff',
             paddingVertical: 8,
@@ -155,9 +212,50 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             marginLeft: 10,
             marginTop: -20
         },
+        smButton: {
+            alignSelf: 'flex-start',
+            backgroundColor: colors.background,
+            paddingVertical: 4,
+            paddingHorizontal: 6,
+            borderColor: colors.border,
+            borderWidth: 1,
+            borderRadius: 20,
+            marginLeft: 10,
+            marginTop: -13
+        },
+        favButton: {
+            alignSelf: 'flex-start',
+            backgroundColor: colors.background,
+            paddingVertical: 4,
+            paddingHorizontal: 6,
+            borderColor: colors.border,
+            borderWidth: 1,
+            borderRadius: 20,
+            marginLeft: 330,
+            marginTop: -25
+        },
         buttonText: {
-            color: 'white',
-            fontWeight: '600',
+            color: colors.primary,
+            fontSize: 8,
+            fontWeight: 'bold',
+        },
+        buttonTextSm: {
+            color: colors.primary,
+            fontSize: 10,
+            fontWeight: 'bold',
+        },
+        refreshTextSm: {
+            color: colors.primary,
+            fontSize: 10,
+            fontWeight: 'bold',
+            marginTop: 0
+        },
+        buttonTextSmTop: {
+            color: colors.primary,
+            fontSize: 10,
+            fontWeight: 'bold',
+            marginBottom: -4,
+            marginTop: 0,
         },
         primaryForecastContainer: {
             padding: 16,
@@ -170,6 +268,13 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             fontWeight: 'bold',
             marginBottom: 8,
         },
+        lastRefreshedText: {
+            fontSize: 10,
+            color: '#868e96',
+            marginLeft: 15,
+            marginTop: -3,
+            marginBottom: 4,
+        },
         mainForecastRow: {
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -179,6 +284,7 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             flex: 1,
         },
         periodName: {
+            color: colors.primary,
             fontSize: 14,
             fontWeight: '600',
         },
@@ -190,29 +296,42 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
         },
         hourlyName: {
             fontSize: 14,
+            color: colors.primary,
             marginLeft: 4,
             marginTop: 2,
             marginBottom: 5,
             fontWeight: '600',
         },
+        shortName: {
+            fontSize: 14,
+            color: "#000",
+            marginLeft: 4,
+            marginTop: 2,
+            fontWeight: '600',
+        },
         shortForecast: {
             fontSize: 14,
-            color: '#555',
+            color: colors.primary,
             marginTop: 4,
         },
         wind: {
+            marginTop: 5,
             fontSize: 14,
-            color: '#555',
+            color: colors.primary,
+        },
+        precipMain: {
+            fontSize: 14,
+            color: colors.primary,
         },
         precipitation: {
             fontSize: 6,
-            color: 'black',
+            color: colors.primary,
             marginTop: -1
         },
         temp: {
             fontSize: 14,
-            color: '#555',
-            marginBottom: 9,
+            color: colors.primary,
+            // marginBottom: 0,
         },
         weatherIcon: {
             width: 100,
@@ -232,7 +351,12 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             backgroundColor: '#f9f9f9',
             borderRadius: 4,
         },
-        topLoading:{
+        hourlyDetails: {
+            marginTop: 10,
+            backgroundColor: '#f9f9f9',
+            borderRadius: 4,
+        },
+        topLoading: {
             marginTop: 100
         },
         horizontalScrollContainer: {
@@ -242,6 +366,8 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
         time: {
             fontSize: 12,
             fontWeight: 'bold',
+            color: colors.primary,
+            marginLeft: 3,
             marginBottom: 4,
         },
         forecast: {
@@ -257,6 +383,13 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             borderRadius: 0,
             paddingVertical: 0,
         },
+        detailsRow: {
+            flexDirection: 'row', // Stack the rows vertically
+            marginBottom: 0,
+            backgroundColor: '#ffffff',
+            borderRadius: 0,
+            paddingVertical: 0,
+        },
         forecastColumn: {
             flexDirection: 'column', // Arrange the data vertically in each column
             // justifyContent: 'center',
@@ -265,7 +398,18 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             padding: 2,
             // backgroundColor: '#ffffff',
             borderRadius: 1,
-            width: 120, // Width of each column
+            width: 50, // Width of each column
+        },
+        windColumn: {
+            flexDirection: 'column', // Arrange the data vertically in each column
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginRight: 1, // Space between columns
+            padding: 2,
+            // backgroundColor: '#ffffff',
+            borderRadius: 1,
+            marginBottom: 6,
+            width: 95, // Width of each column
         },
         tempColumn: {
             flexDirection: 'column', // Arrange the data vertically in each column
@@ -275,7 +419,17 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             padding: 2,
             // backgroundColor: '#ffffff',
             borderRadius: 1,
-            width: 80, // Width of each column
+            width: 50, // Width of each column
+        },
+        showColumn: {
+            flexDirection: 'column', // Arrange the data vertically in each column
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginRight: 1, // Space between columns
+            padding: 2,
+            // backgroundColor: '#ffffff',
+            borderRadius: 1,
+            width: 30, // Width of each column
         },
         forecastDayColumn: {
             flexDirection: 'column', // Arrange the data vertically in each column
@@ -285,7 +439,7 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             padding: 2,
             // backgroundColor: '#ffffff',
             borderRadius: 1,
-            width: 80, // Width of each column
+            width: 75, // Width of each column
         },
         radarHeading: {
             fontSize: 14,
@@ -294,6 +448,113 @@ const getStyles = (scheme: 'light' | 'dark' | null) => {
             fontWeight: '600'
         },
         subHeading: {fontSize: 20, marginBottom: 0},
+        footer: {
+            // backgroundColor: isDark ? '#222' : '#f9f9f9',
+            alignItems: 'flex-end',
+            padding: 0,
+            marginBottom: -15,
+            marginTop: -35,
+            marginRight: 5
+        },
+        logo: {
+            marginTop: 0,
+            width: 120,
+            marginRight: -35,
+            marginBottom: 0,
+            height: 40,
+            resizeMode: 'contain',
+        },
+        headerLogo: {
+            // alignItems: 'flex-start',
+            padding: 5,
+            marginTop: -37,
+            marginRight: -110
+        },
+        indexFooter: {
+            // backgroundColor: isDark ? '#222' : '#f9f9f9',
+            alignItems: 'flex-end',
+            padding: 5,
+            marginBottom: -15,
+            marginTop: -30,
+            marginRight: 5
+        },
+        indexLogo: {
+            // width: 60,
+            height: 20,
+            marginRight: 20,
+            marginTop: -30,
+            // marginBottom: -10,
+            // resizeMode: 'contain',
+        },
+        logoHeader: {
+            width: 60,
+            height: 20,
+            marginRight: -180,
+            // marginTop: 30,
+            marginBottom: -10,
+            resizeMode: 'contain',
+        },
+        footerIcon: {
+            width: 40,
+            height: 40,
+            marginRight: -5,
+            marginTop: 25,
+            marginBottom: -35,
+            resizeMode: 'contain',
+        },
+        indexIcon: {
+            width: 80,
+            height: 20,
+            marginRight: -55,
+            marginTop: 15,
+            marginBottom: -45,
+            resizeMode: 'contain',
+        },
+        headerIcon: {
+            width: 80,
+            height: 20,
+            marginTop: -8,
+            marginLeft: -5  ,
+            resizeMode: 'contain',
+        },
+        radarIcon: {
+            width: 80,
+            height: 20,
+            marginTop: 0,
+            marginBottom: 10,
+            resizeMode: 'contain',
+        },
+        toggleButton: {
+            alignSelf: 'flex-end',
+            marginBottom: -10,
+            paddingVertical: 6,
+            paddingHorizontal: 12,
+            borderRadius: 20,
+            backgroundColor: '#007bff', // or '#888' when inactive
+        },
+        toggleButtonText: {
+            color: 'white',
+            fontSize: 12,
+            fontWeight: '600',
+        },
+        forecastCard: {
+            backgroundColor: '#f8f9fa',
+            borderRadius: 12,
+            padding: 16,
+            marginBottom: 10,
+            elevation: 2, // Android shadow
+            shadowColor: '#000', // iOS shadow
+            shadowOffset: {width: 0, height: 2},
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            justifyContent: 'space-between',
+        },
+        styledFavorite:{
+            color: colors.primary
+        },
+        nonFavorite:{
+            color: colors.border
+        }
     });
 }
 
