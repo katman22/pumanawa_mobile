@@ -66,3 +66,27 @@ export type RadarLocation = {
     radar: string;
   };
 };
+
+export type Alerts= {
+  alerts: Alert[]
+};
+
+export type Alert= {
+  effective: string;
+  headline: string;
+  onset: string;
+  expires: string;
+  ends: string;
+  status: string;
+  message_type: string;
+  category: string;
+  severity: string;
+  certainty: string;
+  urgency: string;
+  event: string;
+  sender_name: string;
+  sender: string;
+  description: string;
+  instruction: string;
+  response: string;
+};

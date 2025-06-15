@@ -12,6 +12,10 @@ import {
     CloudyTheme,
     PoppyTheme,
     ClockTheme,
+    Playful,
+    Provocative,
+    PurpleUrkle,
+    PinkPanther
 } from '@/assets/styles/themes';
 
 const themes = {
@@ -22,6 +26,10 @@ const themes = {
     ocean: OceanTheme,
     poppy: PoppyTheme,
     clock: ClockTheme,
+    play: Playful,
+    provo: Provocative,
+    pantha: PinkPanther,
+    purps: PurpleUrkle
 };
 
 type ThemeName = keyof typeof themes;

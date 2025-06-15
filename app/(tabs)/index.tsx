@@ -102,7 +102,20 @@ export default function HomeScreen() {
             await saveRecentSearch(location);
             const updatedHistory = await getRecentSearches();
             setRecent(updatedHistory);
-            setWeatherList((prev) => [...prev, {lat, long, forecast_locale, forecasts, favorite: location.favorite ?? false, name: location.name}]);
+            setWeatherList((prev) => {
+                const exists = prev.find(f => f.forecast_locale === forecast_locale);
+                if (exists) {
+                    return prev.map(f =>
+                        f.forecast_locale === forecast_locale
+                            ? { lat, long, forecast_locale, forecasts, favorite: location.favorite ?? false, name: location.name }
+                            : f
+                    );
+                } else {
+                    return [...prev, { lat, long, forecast_locale, forecasts, favorite: location.favorite ?? false, name: location.name }];
+                }
+            });
+
+
             setError(null);
         } catch (err) {
             setError(`Error fetching location: ${err}`);
