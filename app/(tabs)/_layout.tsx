@@ -108,6 +108,14 @@ export default function TabLayout() {
                         headerShown: false,
                     }}
                 />
+                <Tabs.Screen
+                    name="alerts"
+                    options={{
+                        href: null,
+                        // tabBarButton: () => null, // This also ensures no space is reserved
+                        headerShown: false,
+                    }}
+                />
             </Tabs>
     );
 }

@@ -14,7 +14,7 @@ type Props = {
     setRecent: React.Dispatch<React.SetStateAction<LocationData[]>>;
 };
 
-const RecentList: React.FC<Props> = ({locationWeather, recentFound, setRecent}) => {
+const   RecentList: React.FC<Props> = ({locationWeather, recentFound, setRecent}) => {
     const {colors} = useTheme();
     const styles = getStyles(colors);
     const handleRemoveFromRecent = async (itemToRemove: LocationData) => {

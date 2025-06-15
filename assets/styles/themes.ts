@@ -18,12 +18,12 @@ export const DustyTheme = createTheme(NavigationDefaultTheme, {
 });
 
 export const OceanTheme = createTheme(NavigationDefaultTheme, {
-    background: '#e6f2ff',
-    primary: '#007bff',
+    background: '#0085ca',
+    primary: '#003366',
     text: '#003366',         // Nearly black (less harsh than #000)
-    border: '#abbdec',           // Muted olive edge
-    notification: '#ada6ed',
-    card: '#fdfdf6',
+    border: '#47d7ac',           // Muted olive edge
+    notification: '#003366',
+    card: '#47d7ac',
 });
 
 export const LightTheme = createTheme(NavigationDefaultTheme, {
@@ -69,4 +69,40 @@ export const ClockTheme = createTheme(NavigationDefaultTheme, {
     text: '#000',             // Gentle off-white for readability
     border: '#959494',           // Clean subtle dividers
     notification: '#dfdf6a',
+});
+
+export const Playful = createTheme(NavigationDefaultTheme, {
+    primary: '#0085ca',          // Soft blue for buttons and accents
+    background: '#A7CB00',       // True black background (good for OLED)
+    card: '#4cae04',             // Slight elevation for cards
+    text: '#000',             // Gentle off-white for readability
+    border: '#0085ca',           // Clean subtle dividers
+    notification: '#dfdf6a',
+});
+
+export const Provocative = createTheme(NavigationDefaultTheme, {
+    primary:  '#1d428a',          // Soft blue for buttons and accents
+    background: '#00a3e0',       // True black background (good for OLED)
+    card: '#f3d0ee',             // Slight elevation for cards
+    text: '#000',              // Gentle off-white for readability
+    border: '#9f166a',           // Clean subtle dividers
+    notification: '#9f166a',
+});
+
+export const PurpleUrkle = createTheme(NavigationDefaultTheme, {
+    primary:  '#ffffff',          // Soft blue for buttons and accents
+    background: '#8659b5',       // True black background (good for OLED)
+    card: '#4C12A1',             // Slight elevation for cards
+    text: '#000',             // Gentle off-white for readability
+    border: '#9f166a',           // Clean subtle dividers
+    notification: '#dfdf6a',
+});
+
+export const PinkPanther = createTheme(NavigationDefaultTheme, {
+    primary:  '#A4123F',          // Soft blue for buttons and accents
+    background: '#E56DB1',       // True black background (good for OLED)
+    card: '#f3d0ee',             // Slight elevation for cards
+    text: '#000',              // Gentle off-white for readability
+    border: '#9f166a',           // Clean subtle dividers
+    notification: '#E56DB1',
 });

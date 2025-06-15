@@ -12,8 +12,6 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@expo/config-plugins": "~10.0.0",
-    "@expo/prebuild-config": "~9.0.0",
     "@expo/vector-icons": "^14.1.0",
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-native-community/cli": "latest",
@@ -22,14 +20,13 @@
     "@react-navigation/native": "^7.1.6",
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
-    "eas-cli": "^16.4.1",
     "expo": "~53.0.7",
     "expo-blur": "~14.1.4",
     "expo-constants": "~17.1.5",
-    "expo-dev-client": "~5.1.8",
+    "expo-dev-client": "~5.2.0",
     "expo-font": "~13.3.1",
     "expo-haptics": "~14.1.4",
-    "expo-image": "~2.1.6",
+    "expo-image": "~2.3.0",
     "expo-linking": "~7.1.4",
     "expo-location": "~18.1.5",
     "expo-router": "~5.0.7",
@@ -41,20 +38,23 @@
     "expo-web-browser": "~14.1.6",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-native": "0.79.2",
+    "react-native": "0.79.3",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-google-mobile-ads": "^15.2.0",
+    "react-native-maps": "1.20.1",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
-    "react-native-screens": "~4.10.0",
+    "react-native-screens": "~4.11.1",
     "react-native-web": "~0.20.0",
-    "react-native-webview": "13.13.5",
-    "react-native-maps": "1.20.1"
+    "react-native-webview": "13.13.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@eslint/js": "^9.26.0",
+    "@expo/config-plugins": "~10.0.0",
+    "@expo/prebuild-config": "~9.0.0",
     "@types/react": "~19.0.10",
+    "eas-cli": "^16.9.0",
     "eslint": "^9.26.0",
     "eslint-config-expo": "~9.2.0",
     "eslint-plugin-react": "^7.37.5",
@@ -63,5 +63,14 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.32.0"
   },
-  "private": true
+  "private": true,
+  "doctor": {
+    "reactNativeDirectoryCheck": {
+      "listUnknownPackages": false
+    }
+  },
+  "resolutions": {
+    "@expo/config-plugins": "~10.0.0",
+    "@expo/prebuild-config": "~9.0.0"
+  }
 }

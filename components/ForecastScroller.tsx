@@ -55,7 +55,7 @@ const ForecastScroller: React.FC<Props> = ({weatherList, removeForecast, setRece
                 style={{marginTop: 2, marginBottom: -100, minHeight:650}}
             >
                 {weatherList.map((item, index) => (
-                    <View key={index} style={{marginTop: 10, marginBottom: 10}}>
+                    <View key={item.forecast_locale} style={{marginTop: 10, marginBottom: 10}}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <TouchableOpacity onPress={() => removeForecast(item.forecast_locale)}
                                               style={{marginLeft: 8}}>
