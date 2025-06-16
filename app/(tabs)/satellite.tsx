@@ -3,16 +3,17 @@ import {WebView} from 'react-native-webview';
 import {fetchRadar} from "@/hooks/UseWeatherService";
 import React, {useEffect, useState} from "react";
 import {LatLong} from "@/components/LatLongContext";
-import {ActivityIndicator, Text, useColorScheme, View} from "react-native";
+import {ActivityIndicator, View} from "react-native";
 import getStyles from '@/assets/styles/styles';
 import {RadarLocation} from "@/constants/types";
 import Footer from "@/components/Footer";
+import { useTheme } from '@react-navigation/native';
 
 export default function SatelliteScreen() {
     const {lat, long, forecast_locale} = useLocalSearchParams();
     const [loading, setLoading] = useState(false);
-    const colorScheme = useColorScheme() || "light";
-    const styles = getStyles(colorScheme);
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
     const [radar, setRadar] = useState<string | null>(null);
 
     useEffect(() => {
@@ -39,16 +40,18 @@ export default function SatelliteScreen() {
         return null; // or a fallback UI
     }
     return (
-            <View style={styles.container}>
-                <Text style={styles.radarHeading}>Radar for: {forecast_locale}</Text>
+        <View style={styles.parentRadarContainer}>
+            <View style={styles.radarContainer}>
                 <WebView
                     source={{uri: `https://radar.weather.gov/station/${radar}`}}
-                    style={{marginTop: 10}}
+                    style={{marginTop: 0}}
                 />
-                <View style={{marginBottom: -30, marginRight: -20}}>
-                <Footer/>
-                </View>
             </View>
+
+            <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
+                <Footer/>
+            </View>
+        </View>
 
     )
 }

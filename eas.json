@@ -6,13 +6,42 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "environment": "development",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "NODE_ENV": "development",
+        "GOOGLE_MAPS_API_KEY": "AIzaSyALGiMGxmRvVA84ADB7GqQKzqPpQ7S6Pzc",
+        "API_SERVER": "http://192.168.11.60:3000/api/v1",
+        "API_JWT_TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJhcHAiOiJtb2JpbGUiLCJleHAiOjIwNjIyODY1MzZ9.SeN6BWPJtm-_dADD37jqFKWoVkgjq_bnwbDWza-JEdc"
+      }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "autoIncrement": true,
+      "environment": "preview",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "GOOGLE_MAPS_API_KEY": "AIzaSyALGiMGxmRvVA84ADB7GqQKzqPpQ7S6Pzc",
+        "API_SERVER": "https://pumanawa-kam.onrender.com/api/v1",
+        "API_JWT_TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJhcHAiOiJtb2JpbGUiLCJleHAiOjIwNjIyODY1MzZ9.SeN6BWPJtm-_dADD37jqFKWoVkgjq_bnwbDWza-JEdc"
+      }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "environment": "production",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "GOOGLE_MAPS_API_KEY": "AIzaSyALGiMGxmRvVA84ADB7GqQKzqPpQ7S6Pzc",
+        "API_SERVER": "https://pumanawa-kam.onrender.com/api/v1",
+        "API_JWT_TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJhcHAiOiJtb2JpbGUiLCJleHAiOjIwNjIyODY1MzZ9.SeN6BWPJtm-_dADD37jqFKWoVkgjq_bnwbDWza-JEdc"
+      }
     }
   },
   "submit": {

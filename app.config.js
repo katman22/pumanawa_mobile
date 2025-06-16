@@ -1,53 +1,73 @@
 import 'dotenv/config';
-import * as SecureStore from 'expo-secure-store';
-
 export default {
     expo: {
-        name: "pumanawa_mobile",
-        slug: "pumanawa_mobile",
-        version: "1.0.0",
+        name: "Aura Weather",
+        slug: "aura-weather",
+        version: "6.0.0",
         orientation: "portrait",
-        icon: "./assets/images/icon.png",
+        icon: "./assets/images/aura_logo_v6_splash.png",
         scheme: "pumanawamobile",
         userInterfaceStyle: "automatic",
         newArchEnabled: true,
+        splash: {
+            image: "./assets/images/aura_logo_v6.png",
+            resizeMode: "contain",
+            backgroundColor: "#ffffff",
+        },
+        assetBundlePatterns: ["**/*"],
         ios: {
-            supportsTablet: true
+            supportsTablet: false,
+            bundleIdentifier: "com.onrender.pumanawa-kam"
         },
         android: {
             adaptiveIcon: {
-                foregroundImage: "./assets/images/adaptive-icon.png",
+                foregroundImage: "./assets/images/aura_logo_v6.png",
                 backgroundColor: "#ffffff"
             },
+            supportsTablet: false,
             edgeToEdgeEnabled: true,
-            package: "com.onrender.pumanawa_kam" // Your Android package name
+            package: "com.onrender.pumanawa_kam",
+            versionCode: 26,
+            config: {
+                googleMaps: {
+                    apiKey: "AIzaSyALGiMGxmRvVA84ADB7GqQKzqPpQ7S6Pzc"
+                }
+            }
         },
         web: {
             bundler: "metro",
             output: "static",
-            favicon: "./assets/images/favicon.png"
+            favicon: "./assets/images/aura_logo_v6.png"
         },
         plugins: [
             "expo-router",
             [
                 "expo-splash-screen",
                 {
-                    image: "./assets/images/splash-icon.png",
+                    image: "./assets/images/aura_logo_v6.png",
                     imageWidth: 200,
                     resizeMode: "contain",
                     backgroundColor: "#ffffff"
                 }
             ],
-            "expo-secure-store"
+            "expo-secure-store",
+            [
+                "react-native-google-mobile-ads",
+                {
+                    androidAppId: "ca-app-pub-3940256099942544~3347511713",
+                    iosAppId: "ca-app-pub-6336863096491370~9735164410"
+                }
+            ]
         ],
         experiments: {
             typedRoutes: true
         },
         extra: {
             apiJwtToken: process.env.API_JWT_TOKEN,
+            apiServer: process.env.API_SERVER,
             router: {},
             eas: {
-                projectId: "3114d2ad-a648-48a6-972f-359b4c7c6e16" // Pumanawa Mobile project ID
+                projectId: "1d609ca4-800b-4b6a-bf2c-22867b200de5"
             }
         }
     }

@@ -1,36 +1,25 @@
 import React from 'react';
-import {View, Image, StyleSheet, useColorScheme} from 'react-native';
+import {View, Platform} from 'react-native';
+import {BannerAd, BannerAdSize, TestIds} from "react-native-google-mobile-ads";
 
 
 export default function Footer() {
-  const colorScheme = useColorScheme() || 'light';
-  const imageMap = {
-    light: require('@/assets/images/wharehokohoko_kam.png'),
-    dark: require('@/assets/images/wharehokohoko_kam_white.png'),
-  };
-  const imageSource = imageMap[colorScheme];
+    const adUnitId = __DEV__
+        ? TestIds.BANNER
+        : Platform.OS === 'ios'
+            ? "ca-app-pub-6336863096491370/7351709503" // iOS banner unit ID
+            : "ca-app-pub-6336863096491370/2870071842"; // Android Banner unit id
 
-  return (
-        <View style={styles.footer}>
-          <Image
-              source={imageSource}
-              style={styles.logo}
-          />
+    return (
+        <View>
+            <View style={{marginBottom: 0}}>
+                <BannerAd
+                    unitId={adUnitId}
+                    size={BannerAdSize.ADAPTIVE_BANNER}
+                    requestOptions={{requestNonPersonalizedAdsOnly: true}}
+                />
+            </View>
         </View>
-  );
+    );
 }
 
-const styles = StyleSheet.create({
-  footer: {
-    alignItems: 'flex-end',
-    padding: 5,
-    marginBottom: 5,
-    marginTop: 5,
-    marginRight: 5
-  },
-  logo: {
-    width: 120,
-    height: 40,
-    resizeMode: 'contain',
-  },
-});
