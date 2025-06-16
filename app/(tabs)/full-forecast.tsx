@@ -1,4 +1,4 @@
-import {View, Text, useColorScheme, ActivityIndicator, Image, TouchableOpacity} from 'react-native';
+import {View, Text, ActivityIndicator} from 'react-native';
 import getStyles from '@/assets/styles/styles';
 import {fetchHourlyWeather} from "@/hooks/UseWeatherService";
 import {useLocalSearchParams} from 'expo-router';
@@ -6,12 +6,10 @@ import {LocationData, LocationHourlyForecast} from "@/constants/types";
 import React, {useState, useEffect, useContext} from "react";
 import Footer from "@/components/Footer";
 import HourlyForecastGrid from "@/components/HourlyForecastGrid";
+import MainForecastCard from "@/components/MainForecastCard"
 import {LatLongContext} from "@/components/LatLongContext";
-import Header from "@/components/Header";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import ZoomWrapper from "@/components/ZoomWrapper";
 import {useTheme} from '@react-navigation/native';
-import ThemeToggleButton from "@/components/ThemeToggleButton";
 
 export default function FullForecastScreen() {
     const {lat, long, forecast_locale} = useLocalSearchParams() as {
@@ -98,84 +96,15 @@ export default function FullForecastScreen() {
         <ZoomWrapper>
             <View style={(styles.parentContainer)}>
                 <View style={styles.container}>
-                    <View style={styles.fullForecastContainer}>
+                    <MainForecastCard
+                        forecast_locale={forecast_locale}
+                        mainForecast={mainForecast}
+                        lastRefreshed={lastRefreshed}
+                        onRefresh={handleRefresh}
+                        formatTimestamp={formatTimestamp}
+                        maxCardHeight={390}
+                    />
 
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                marginBottom: 10,
-                                marginRight: 12,
-                                marginLeft: 4,
-                                position: 'relative',
-                            }}>
-
-                            <View style={{maxWidth: 220, marginLeft: -5}}>
-                                <Text
-                                    style={{
-                                        fontSize: 14,
-                                        fontWeight: 'bold',
-                                        color: colors.primary,
-                                    }}
-                                    numberOfLines={1}
-                                    ellipsizeMode="tail"
-                                >
-                                    {forecast_locale}
-                                </Text>
-                            </View>
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between', // or 'space-between' / 'center' depending on layout needs
-                                    gap: 8, // optional: if using React Native 0.71+ or with Expo SDK 49+
-                                }}
-                            >
-                                <TouchableOpacity onPress={handleRefresh} style={{marginRight: 0, marginLeft: 10, marginTop: -7}}>
-                                    <Ionicons
-                                        name="refresh-circle-outline"
-                                        size={24}
-                                        color={colors.primary}
-                                    />
-                                </TouchableOpacity>
-                                <View style={{marginRight: -10, marginLeft: 10, marginTop: 2}}>
-                                    <ThemeToggleButton/>
-                                </View>
-                                <Header/>
-                            </View>
-
-                        </View>
-
-                        <View style={styles.mainForecastRow}>
-                            {/* Left side: Forecast details */}
-                            <View style={styles.forecastDetails}>
-                                <Text style={styles.periodName}>{mainForecast?.name}</Text>
-                                <Text style={styles.shortForecast}>{mainForecast?.shortForecast}</Text>
-                                <Text style={styles.wind}>
-                                    Wind: {mainForecast?.windDirection} {mainForecast?.windSpeed}
-                                </Text>
-                                <Text style={styles.temp}>
-                                    Temp: {mainForecast?.temperature}°{mainForecast?.temperatureUnit}
-                                </Text>
-                            </View>
-                            {/* Right side: Forecast Image */}
-                            <Image
-                                source={{uri: mainForecast?.icon}}
-                                style={styles.weatherIcon}
-                                resizeMode="contain"
-                            />
-                        </View>
-                        <View style={styles.detailsContainer}>
-                            <Text style={styles.detailsName}>Full Details:</Text>
-                            <Text style={styles.detailedForecast}>
-                                {mainForecast?.detailedForecast}</Text>
-                            {lastRefreshed && (
-                                <Text style={[styles.lastRefreshedText]}>
-                                    Last refreshed: {formatTimestamp(lastRefreshed)}
-                                </Text>
-                            )}
-                        </View>
-                    </View>
                     <View style={styles.hourlyForecastContainer}>
                         {remainingForecasts && remainingForecasts.length > 0 && (
                             <View>

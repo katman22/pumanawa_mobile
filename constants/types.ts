@@ -67,6 +67,19 @@ export type RadarLocation = {
   };
 };
 
+export type Discussion = {
+  discussion: DiscussionData;
+}
+
+export type DiscussionData = {
+  synopsis: string;
+  short_term: string;
+  long_range: string;
+  aviation: string;
+  fire_weather: string;
+  watches_warnings: string;
+}
+
 export type Alerts= {
   alerts: Alert[]
 };

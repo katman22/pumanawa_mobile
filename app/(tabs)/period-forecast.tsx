@@ -1,17 +1,15 @@
-import {View, Text, ActivityIndicator, Image, TouchableOpacity} from 'react-native';
+import {View, Text, ActivityIndicator, TouchableOpacity} from 'react-native';
 import getStyles from '@/assets/styles/styles';
 import {fetchPeriodForecast} from "@/hooks/UseWeatherService";
 import {useLocalSearchParams, useRouter} from 'expo-router';
 import {LocationData, ForecastPeriod} from "@/constants/types";
 import React, {useState, useEffect} from "react";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import ZoomWrapper from "@/components/ZoomWrapper";
 import {useTheme} from '@react-navigation/native';
-import ThemeToggleButton from "@/components/ThemeToggleButton";
-import {getDewPointLabel, getHumidityLabel} from "@/constants/utilities/recentSearches";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import MainForecastCard from "@/components/MainForecastCard";
+import LargeInlineAd from "@/components/LargeInlineAd";
 
 export default function PeriodForecastScreen() {
     const {lat, long, forecast_locale, period} = useLocalSearchParams() as {
@@ -83,104 +81,32 @@ export default function PeriodForecastScreen() {
         <ZoomWrapper>
             <View style={(styles.parentContainer)}>
                 <View style={styles.container}>
-                    <View style={styles.fullForecastContainer}>
+                    <MainForecastCard
+                        forecast_locale={forecast_locale}
+                        mainForecast={forecast}
+                        lastRefreshed={lastRefreshed}
+                        onRefresh={handleRefresh}
+                        formatTimestamp={formatTimestamp}
 
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                marginBottom: 10,
-                                marginRight: 12,
-                                marginLeft: 4,
-                                position: 'relative',
-                            }}>
-
-                            <View style={{maxWidth: 220, marginLeft: -5}}>
-                                <Text
-                                    style={{
-                                        fontSize: 14,
-                                        fontWeight: 'bold',
-                                        color: colors.primary,
-                                    }}
-                                    numberOfLines={1}
-                                    ellipsizeMode="tail"
-                                >
-                                    {forecast_locale}
-                                </Text>
-                            </View>
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between', // or 'space-between' / 'center' depending on layout needs
-                                    gap: 8, // optional: if using React Native 0.71+ or with Expo SDK 49+
-                                }}
-                            >
-                                <TouchableOpacity onPress={handleRefresh}
-                                                  style={{marginRight: 0, marginLeft: 10, marginTop: -7}}>
-                                    <Ionicons
-                                        name="refresh-circle-outline"
-                                        size={24}
-                                        color={colors.primary}
-                                    />
-                                </TouchableOpacity>
-                                <View style={{marginRight: -10, marginLeft: 10, marginTop: 2}}>
-                                    <ThemeToggleButton/>
+                        maxCardHeight={480}
+                        renderExtra={
+                            <TouchableOpacity onPress={() => router.push('/')}>
+                                <View style={{
+                                    alignItems: "flex-start",
+                                    marginRight: 5,
+                                    marginTop: -2,
+                                    paddingBottom: 10
+                                }}>
+                                    <MaterialCommunityIcons name="weather-sunny" size={26} color={colors.primary}/>
+                                    <Text style={{fontSize: 10, color: colors.text}}>Home</Text>
                                 </View>
-                                <Header/>
-                            </View>
-
-                        </View>
-
-                        <View style={styles.mainForecastRow}>
-                            {/* Left side: Forecast details */}
-                            <View style={styles.forecastDetails}>
-                                <Text style={styles.periodName}>{forecast?.name}</Text>
-                                <Text style={styles.shortForecast}>{forecast?.shortForecast}</Text>
-                                <Text style={styles.wind}>
-                                    Wind: {forecast?.windDirection} {forecast?.windSpeed}
-                                </Text>
-                                <Text style={styles.temp}>
-                                    Temp: {forecast?.temperature}°{forecast?.temperatureUnit}
-                                </Text>
-                            </View>
-                            {/* Right side: Forecast Image */}
-                            <Image
-                                source={{uri: forecast?.icon}}
-                                style={styles.weatherIcon}
-                                resizeMode="contain"
-                            />
-                        </View>
-                        <View style={styles.detailsContainer}>
-                            <Text style={styles.detailsName}>Full Details:</Text>
-                            <Text style={styles.detailedForecast}>
-                                {forecast?.detailedForecast}</Text>
-                            <Text style={styles.detailedForecast}>
-                                Dew Point: {forecast.dewpoint.value?.toFixed(1)}°C
-                                {" "}({getDewPointLabel(forecast.dewpoint.value)})
-                            </Text>
-
-                            <Text style={styles.detailedForecast}>
-                                Humidity: {forecast.relativeHumidity.value}%
-                                {" "}({getHumidityLabel(forecast.relativeHumidity.value)})
-                            </Text>
-                            {lastRefreshed && (
-                                <Text style={[styles.lastRefreshedText]}>
-                                    Last refreshed: {formatTimestamp(lastRefreshed)}
-                                </Text>
-                            )}
-                        </View>
-                    </View>
-                    <TouchableOpacity onPress={() => router.push({
-                        pathname: '/'
-                    },)}>
-                        <View style={{marginLeft: 40, marginTop: 20}}>
-                            <MaterialCommunityIcons name="weather-sunny" size={30} color="black"/>
-                            <Text style={{marginLeft: -8}}>Home</Text>
-                        </View>
-                    </TouchableOpacity>
+                            </TouchableOpacity>
+                        }
+                    />
                 </View>
-
+                <View style={{marginBottom: 150}}>
+                    <LargeInlineAd/>
+                </View>
                 <View style={{position: 'absolute', bottom: 60, width: '100%'}}>
                     <Footer/>
                 </View>
