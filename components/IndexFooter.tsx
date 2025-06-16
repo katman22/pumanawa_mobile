@@ -16,7 +16,7 @@ export default function IndexFooter() {
             <View style={{marginBottom: -10}}>
                 <BannerAd
                     unitId={adUnitId}
-                    size={BannerAdSize.ADAPTIVE_BANNER}
+                    size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
                     requestOptions={{requestNonPersonalizedAdsOnly: true}}
                 />
             </View>

@@ -7,6 +7,7 @@ import TabBarBackground from '@/components/ui/TabBarBackground';
 import {Colors} from '@/constants/Colors';
 import {useColorScheme} from '@/hooks/useColorScheme';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Entypo from '@expo/vector-icons/Entypo';
 
 export default function TabLayout() {
     const colorScheme = useColorScheme();
@@ -74,6 +75,33 @@ export default function TabLayout() {
                 }}
                 />
                 <Tabs.Screen
+                    name="discussion"
+                    options={{
+                        title: 'Discussion',
+                        tabBarIcon: () => (
+                            <Entypo name="news" size={24} color="black" />
+                        ),
+                    }}
+                    listeners={{
+                        tabPress: (e) => {
+                            e.preventDefault();
+
+                            if (lat && long) {
+                                router.push({
+                                    pathname: '/discussion',
+                                    params: {
+                                        lat: lat.toString(),
+                                        long: long.toString(),
+                                        forecast_locale: forecast_locale.toString()
+                                    },
+                                });
+                            } else {
+                                console.log('Lat/Long not available');
+                            }
+                        },
+                    }}
+                />
+                <Tabs.Screen
                     name="satellite"
                     options={{
                         title: 'Satellite',
@@ -100,6 +128,7 @@ export default function TabLayout() {
                         },
                     }}
                 />
+
                 <Tabs.Screen
                     name="radar"
                     options={{

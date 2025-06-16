@@ -1,7 +1,15 @@
 // hooks/useWeatherService.ts
 import axios from 'axios';
 import Constants from 'expo-constants';
-import {ForecastPeriod, LocationData, LocationForecast, LocationHourlyForecast, RadarLocation, Alerts} from "@/constants/types"
+import {
+  ForecastPeriod,
+  LocationData,
+  LocationForecast,
+  LocationHourlyForecast,
+  RadarLocation,
+  Alerts,
+  Discussion
+} from "@/constants/types"
 import {LatLong} from "@/components/LatLongContext"
 
 const api_server = Constants.expoConfig?.extra?.apiServer ?? "";
@@ -27,6 +35,15 @@ export const fetchWeather = async (location: LocationData): Promise<LocationFore
 export const fetchAlerts = async (lat: string, long: string): Promise<Alerts> => {
   const token = Constants.expoConfig?.extra?.apiJwtToken ?? "";
   const response = await axios.get(`${api_server}/weather/alerts`, {
+    params: { lat: lat, long: long },
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+
+export const fetchDiscussion = async (lat: string, long: string): Promise<Discussion> => {
+  const token = Constants.expoConfig?.extra?.apiJwtToken ?? "";
+  const response = await axios.get(`${api_server}/weather/discussion`, {
     params: { lat: lat, long: long },
     headers: { Authorization: `Bearer ${token}` },
   });

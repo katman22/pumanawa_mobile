@@ -136,6 +136,14 @@ const getStyles = (colors: Theme['colors']) => {
             marginTop: 10,
             padding: 5
         },
+        hourlyRowContainer: {
+            backgroundColor: colors.background,
+            borderColor: colors.border,
+            borderWidth: 0,
+            borderRadius: 8,
+            marginTop: 0,
+            padding: 5
+        },
         collapsibleMask: {
             ...StyleSheet.absoluteFillObject,
             backgroundColor: 'rgba(255, 255, 255, 0.6)', // light transparent mask
@@ -346,6 +354,11 @@ const getStyles = (colors: Theme['colors']) => {
             padding: 5,
             borderRadius: 4,
         },
+        shortContainer: {
+            marginTop: 5,
+            backgroundColor: '#f9f9f9',
+            borderRadius: 4,
+        },
         detailsContainer: {
             marginTop: 10,
             backgroundColor: '#f9f9f9',
@@ -554,6 +567,9 @@ const getStyles = (colors: Theme['colors']) => {
         },
         nonFavorite:{
             color: colors.border
+        },
+        scrollContentContainer: {
+            paddingBottom: 120, // enough to scroll past footer
         }
     });
 }
